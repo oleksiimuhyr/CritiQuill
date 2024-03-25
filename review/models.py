@@ -16,14 +16,20 @@ class Movie(models.Model):
     genre = models.ManyToManyField("Genre")
     release_year = models.IntegerField()
 
+    def __str__(self):
+        return self.title
+
 
 class Reviewer(AbstractUser):
     review_history = models.ManyToManyField(Movie, related_name="reviewed_by")
 
+    def __str__(self):
+        return self.username
+
 
 class Review(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     RATING_CHOICES = [
         (0, "0 - Terrible"),
@@ -36,3 +42,6 @@ class Review(models.Model):
     rating = models.IntegerField(choices=RATING_CHOICES)
     review_text = models.TextField()
     added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.movie.title}"
