@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block sidebar %}
+    {% include "includes/sidebar.html" %}
+{% endblock %}
 
 {% block content %}
   <h1>Movie Review Platform</h1>
@@ -9,7 +12,7 @@
     <li><strong>Movies:</strong> {{ num_movies }}</li>
     <li><strong>Reviews:</strong> {{ num_reviews}}</li>
     <li><strong>Genres:</strong> {{ num_genres }}</li>
-  </ul>
+  </ul>  
 
   <p>You have visited this page
       {{ num_visits }} time{{ num_visits|pluralize }}.

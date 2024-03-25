@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "crispy_forms",
+    "crispy_bootstrap4",
     "review",
 ]
 
@@ -132,3 +133,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "review.Reviewer"
+
+LOGIN_REDIRECT_URL = '/review/'
