@@ -1,3 +1,36 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Movie(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    description = models.TextField()
+    genre = models.ManyToManyField("Genre")
+    release_year = models.IntegerField()
+
+
+class User(AbstractUser):
+    review_history = models.ManyToManyField(Movie, related_name="reviewed_by")
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    RATING_CHOICES = [
+        (0, "0 - Terrible"),
+        (1, "1 - Poor"),
+        (2, "2 - Fair"),
+        (3, "3 - Good"),
+        (4, "4 - Very Good"),
+        (5, "5 - Excellent"),
+    ]
+    rating = models.IntegerField(choices=RATING_CHOICES)
+    review_text = models.TextField()
+    added_at = models.DateTimeField(auto_now_add=True)
