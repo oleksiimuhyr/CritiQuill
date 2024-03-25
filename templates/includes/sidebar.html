@@ -14,8 +14,9 @@
 
   <br>
 
-  <li class="list-group-item"><a href="#">Home</a></li>
-  <li class="list-group-item"><a href="#">All movies</a></li>
-  <li class="list-group-item"><a href="#">All reviews</a></li>
-  <li class="list-group-item"><a href="#">All genres</a></li>
+  <li class="list-group-item"><a href="{% url "review:index" %}">Home</a></li>
+  <li class="list-group-item"><a href="{% url "review:movies-list" %}">All movies</a></li>
+  <li class="list-group-item"><a href="{% url "review:reviews-list" %}">All reviews</a></li>
+  <li class="list-group-item"><a href="{% url "review:genres-list" %}">All genres</a></li>
+  <li class="list-group-item"><a href="{% url "review:reviewers-list" %}">All reviewers</a></li>
 

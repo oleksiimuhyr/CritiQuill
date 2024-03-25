@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Reviewers List</h1>
+  <ul>
+  {% for reviewer in reviewer_list %}
+    <li>{{ reviewer.username }}</li>
+    {% empty %}
+    <p>There is no reviewer</p>
+    {% endfor %}    
+  </ul>
+{% endblock %}

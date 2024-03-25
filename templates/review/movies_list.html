@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Movies List</h1>
+  <ul>
+  {% for movie in movies_list %}
+    <li>{{ movie.title }} ({{ movie.release_year }})</li>
+    {% empty %}
+    <p>There is no movie with chosen name</p>
+    {% endfor %}    
+  </ul>
+{% endblock %}
