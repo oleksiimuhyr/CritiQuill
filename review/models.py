@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -16,12 +17,13 @@ class Movie(models.Model):
     release_year = models.IntegerField()
 
 
-class User(AbstractUser):
+class Reviewer(AbstractUser):
     review_history = models.ManyToManyField(Movie, related_name="reviewed_by")
 
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     RATING_CHOICES = [
         (0, "0 - Terrible"),
