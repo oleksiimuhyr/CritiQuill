@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import generic
-
 from .models import Movie, Review, Genre, Reviewer
 
 
@@ -34,8 +32,13 @@ class GenreListView(generic.ListView):
     paginate_by = 5
 
 
+class MovieDetailView(generic.DetailView):
+    model = Movie
+
+
 class MovieListView(generic.ListView):
     model = Movie
+    queryset = Movie.objects.prefetch_related("genre")
     template_name = "review/movies_list.html"
     context_object_name = "movies_list"
     paginate_by = 5

@@ -1,11 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Movies List</h1>
-  <ul>
-  {% for movie in movies_list %}
-    <li>{{ movie.title }} ({{ movie.release_year }})</li>
-    {% empty %}
-    <p>There is no movie with chosen name</p>
-    {% endfor %}    
-  </ul>
+  {% if movies_list %}
+    <table class="table" style="border-collapse: collapse; width: 100%;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Title</th>
+          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Release Year</th>
+          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Genres</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for movie in movies_list %}
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a></td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ movie.release_year }}</td>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">
+              {% if movie.genre.all %}
+                {{ movie.genre.all|join:', ' }}
+              {% else %}
+                No genres listed
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" style="border: 1px solid #dddddd; text-align: left; padding: 8px;">There are no movies.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no movies.</p>
+  {% endif %}
 {% endblock %}

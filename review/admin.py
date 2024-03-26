@@ -8,12 +8,12 @@ from review.models import Review, Genre, Movie, Reviewer
 @admin.register(Reviewer)
 class ReviewerAdmin(UserAdmin):
     list_display = UserAdmin.list_display
-    fieldsets = UserAdmin.fieldsets + (
-        ("Additional info", {"fields": ("reviewed_by",)}),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        ("Additional info", {"fields": ("reviewed_by",)}),
-    )
+    # fieldsets = UserAdmin.fieldsets + (
+    #     ("Additional info", {"fields": ("reviewed_by",)}),
+    # )
+    # add_fieldsets = UserAdmin.add_fieldsets + (
+    #     ("Additional info", {"fields": ("reviewed_by",)}),
+    # )
 
 
 @admin.register(Review)

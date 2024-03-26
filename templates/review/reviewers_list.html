@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Reviewers List</h1>
-  <ul>
-  {% for reviewer in reviewer_list %}
-    <li>{{ reviewer.username }}</li>
-    {% empty %}
-    <p>There is no reviewer</p>
-    {% endfor %}    
-  </ul>
+  {% if reviewer_list %}
+    <table style="border-collapse: collapse; width: 100%;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Reviewer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reviewer in reviewer_list %}
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ reviewer.username }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">There are no reviewers.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no reviewers.</p>
+  {% endif %}
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+  <div class="movie-details">
+    <h1>Title: {{ movie.title }}</h1>
+    <hr>
+    <p><strong>Genre: </strong>
+      {% if movie.genre.all %}
+        {% for genre in movie.genre.all %}
+          {{ genre.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      {% else %}
+        No genres listed
+      {% endif %}
+    </p>
+    <hr>
+    <p><strong>Release year: </strong>{{ movie.release_year }}</p>  
+    <hr>
+  </div>
+{% endblock %}

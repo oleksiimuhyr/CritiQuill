@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class Genre(models.Model):
@@ -13,11 +14,14 @@ class Genre(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField()
-    genre = models.ManyToManyField("Genre")
+    genre = models.ManyToManyField(Genre)
     release_year = models.IntegerField()
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("review:movie-detail", args=[str(self.id)])
 
 
 class Reviewer(AbstractUser):
