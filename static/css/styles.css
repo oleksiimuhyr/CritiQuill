@@ -1,4 +1,14 @@
 body {
-    margin-top: 20px;
-    background: green;
+    margin-top: 20px
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;"
 }

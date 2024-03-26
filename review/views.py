@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Movie, Review, Genre, Reviewer
 
@@ -25,11 +25,15 @@ def index(request):
     return render(request, "review/index.html", context=context)
 
 
-class GenreListView(generic.ListView):
-    model = Genre
-    template_name = "review/genres_list.html"
-    context_object_name = "genres_list"
-    paginate_by = 5
+def all_genres(request):
+    genres = Genre.objects.all()
+    return render(request, 'review/all_genres.html', {'genres': genres})
+
+
+def all_genre_movies(request, genre_id):
+    genre = get_object_or_404(Genre, pk=genre_id)
+    movies = Movie.objects.filter(genre=genre)
+    return render(request, 'review/movies_by_genre.html', {'genre': genre, 'movies': movies})
 
 
 class MovieDetailView(generic.DetailView):
@@ -51,8 +55,12 @@ class ReviewListView(generic.ListView):
     paginate_by = 5
 
 
-class ReviewerListView(generic.ListView):
-    model = Reviewer
-    template_name = "review/reviewers_list.html"
-    context_object_name = "reviewer_list"
-    paginate_by = 5
+class ReviewDetailView(generic.DetailView):
+    model = Review
+
+
+# class ReviewerListView(generic.ListView):
+#     model = Reviewer
+#     template_name = "review/reviewers_list.html"
+#     context_object_name = "reviewer_list"
+#     paginate_by = 5

@@ -10,13 +10,11 @@
   {% else %}
     <li class="list-group-item"><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
   {% endif %}
-</ul>
-
   <br>
 
   <li class="list-group-item"><a href="{% url "review:index" %}">Home</a></li>
   <li class="list-group-item"><a href="{% url "review:movies-list" %}">All movies</a></li>
   <li class="list-group-item"><a href="{% url "review:reviews-list" %}">All reviews</a></li>
-  <li class="list-group-item"><a href="{% url "review:genres-list" %}">All genres</a></li>
-  <li class="list-group-item"><a href="{% url "review:reviewers-list" %}">All reviewers</a></li>
-
+  <li class="list-group-item"><a href="{% url "review:all_genres" %}">All genres</a></li> 
+{#  <li class="list-group-item"><a href="{% url "review:reviewers-list" %}">All reviewers</a></li>#}
+</ul>

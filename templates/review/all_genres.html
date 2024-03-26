@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>All Genres</h1>
+  
+  <ul>
+    {% for genre in genres %}
+      <li><a href="{% url "review:all-genre-movies" genre.id %}">{{ genre.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

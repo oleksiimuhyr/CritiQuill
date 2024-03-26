@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title">Author: {{ review.user.username }}</h1>
+            <hr>
+            <p class="card-text"><strong>Movie: {{ review.movie.title }}</strong></p>
+            <hr>
+            <p class="card-text"><strong>Review:
+              <br>              
+              {{ review.review_text }}</strong></p>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+          </div>
+        </div>
+      </div>  
+
+{% endblock %}

@@ -2,20 +2,20 @@
 {% block content %}
   <h1>Movies List</h1>
   {% if movies_list %}
-    <table class="table" style="border-collapse: collapse; width: 100%;">
+    <table class="table">
       <thead>
         <tr>
-          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Title</th>
-          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Release Year</th>
-          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Genres</th>
+          <th>Title</th>
+          <th>Release Year</th>
+          <th>Genres</th>
         </tr>
       </thead>
       <tbody>
         {% for movie in movies_list %}
           <tr>
-            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a></td>
-            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">{{ movie.release_year }}</td>
-            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">
+            <td><a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a></td>
+            <td>{{ movie.release_year }}</td>
+            <td>
               {% if movie.genre.all %}
                 {{ movie.genre.all|join:', ' }}
               {% else %}
@@ -25,7 +25,7 @@
           </tr>
         {% empty %}
           <tr>
-            <td colspan="3" style="border: 1px solid #dddddd; text-align: left; padding: 8px;">There are no movies.</td>
+            <td colspan="3" >There are no movies.</td>
           </tr>
         {% endfor %}
       </tbody>
