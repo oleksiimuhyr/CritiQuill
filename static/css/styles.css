@@ -12,3 +12,58 @@ th, td {
     text-align: left;
     padding: 8px;"
 }
+
+.container {
+  margin-top: 50px;
+}
+
+.review-stats {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-stats h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+.list-group {
+  margin-top: 20px;
+}
+
+.list-group-item {
+  border: none;
+  font-size: 18px;
+  color: #666;
+}
+
+.sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Adjust width as needed */
+    height: 100%; /* Make sidebar full height of the viewport */
+    background-color: #f8f9fa; /* Add background color */
+    border-right: 1px solid #ccc; /* Add border on the right side */
+    padding-top: 20px; /* Add padding for top */
+  }
+
+  .sidebar-nav {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .sidebar-nav .list-group-item {
+    border-bottom: 1px solid #ccc; /* Add border to each list item */ }
+
+
+
+  .sidebar-nav .list-group-item a {
+    color: #333; /* Link color */
+  }
+
+  .sidebar-nav .list-group-item a:hover {
+    color: #555; /* Change link color on hover */
+  }

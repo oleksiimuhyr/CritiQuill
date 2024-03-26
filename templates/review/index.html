@@ -1,21 +1,32 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block sidebar %}
     {% include "includes/sidebar.html" %}
 {% endblock %}
 
 {% block content %}
-  <h1>Movie Review Platform</h1>
-  <p>Welcome to Movie Review Platform</p>
-  <h2>Dynamic content</h2>
-  <p>The Movie Review Platform has the following record counts:</p>
-  <ul>
-    <li><strong>Movies:</strong> {{ num_movies }}</li>
-    <li><strong>Reviews:</strong> {{ num_reviews}}</li>
-    <li><strong>Genres:</strong> {{ num_genres }}</li>
-  </ul>  
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"><h1 class="card-title">CritiQuill</h1></div>
+                <div class="card-body">
+                    <p class="card-text">Welcome to CritiQuill</p> 
+                    <p class="card-text">At this moment we have:</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Movies:</strong> {{ num_movies }}</li>
+                        <li class="list-group-item"><strong>Reviews:</strong> {{ num_reviews }}</li>
+                        <li class="list-group-item"><strong>Genres:</strong> {{ num_genres }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-  <p>You have visited this page
-      {{ num_visits }} time{{ num_visits|pluralize }}.
-  </p>
-
+{% block scripts %}
+    {{ block.super }}
+    {% crispy form %}
 {% endblock %}

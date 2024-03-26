@@ -5,7 +5,7 @@
   
   <ul>
     {% for movie in movies %}
-      <li>{{ movie.title }} - {{ movie.release_year }}</li>
+      <li><a href="{% url 'review:movie-detail' movie.id %}">{{ movie.title }}</a> - {{ movie.release_year }}</li>
     {% endfor %}
   </ul>
 {% endblock %}

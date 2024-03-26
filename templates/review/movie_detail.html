@@ -14,8 +14,21 @@
         No genres listed
       {% endif %}
     </p>
-    <hr>
     <p><strong>Release year: </strong>{{ movie.release_year }}</p>  
     <hr>
+
+    <h2>Reviews:</h2>
+    {% if movie.review_set.all %}
+      <ul>
+        {% for review in movie.review_set.all %}
+          <li>
+            <a href="{% url 'review:review-detail' review.id %}" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }} </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No reviews yet.</p>
+    {% endif %}
   </div>
 {% endblock %}
+

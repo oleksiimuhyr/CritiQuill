@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  {% block title %}<title>Movie Review Platform</title>{% endblock %}
-  {% load static %}
+<head> 
+{% load static %}
+    {% block title %}
+        <title>CritiQuill</title>
+    {% endblock %}  
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'css/favicon-32x32.png' %}">
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -12,7 +16,6 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous">
   <!-- Add additional CSS in static file -->
-{% load static %}
 <link rel="stylesheet" href="{% static "css/styles.css" %}">
 </head>
 <body>
