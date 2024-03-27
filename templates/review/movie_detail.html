@@ -1,34 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
-  <div class="movie-details">
-    <h1>Title: {{ movie.title }}</h1>
-    <hr>
-    <p><strong>Genre: </strong>
-      {% if movie.genre.all %}
-        {% for genre in movie.genre.all %}
-          {{ genre.name }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-      {% else %}
-        No genres listed
-      {% endif %}
-    </p>
-    <p><strong>Release year: </strong>{{ movie.release_year }}</p>  
-    <hr>
-
-    <h2>Reviews:</h2>
-    {% if movie.review_set.all %}
-      <ul>
-        {% for review in movie.review_set.all %}
-          <li>
-            <a href="{% url 'review:review-detail' review.id %}" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }} </a>
-          </li>
-        {% endfor %}
-      </ul>
+<div class="movie-details">
+  <h1>Title: {{ movie.title }}</h1>
+  <hr>
+  <p><span class="genre">Genre:</span>
+    {% if movie.genre.all %}
+      {% for genre in movie.genre.all %}
+        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
     {% else %}
-      <p>No reviews yet.</p>
+      No genres listed
     {% endif %}
-  </div>
-{% endblock %}
+  </p>
+  <p><strong>Release year:</strong> {{ movie.release_year }}</p>
+  <hr>
 
+  <h2>Reviews:</h2>
+  {% if movie.review_set.all %}
+    <ul class="review-list">
+      {% for review in movie.review_set.all %}
+        <li class="review-item">
+          <a href="{% url 'review:review-detail' review.id %}" class="review-link" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

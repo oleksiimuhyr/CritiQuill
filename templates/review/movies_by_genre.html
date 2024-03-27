@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="movies-by-genre">
   <h1>{{ genre.name }} Movies</h1>
-  
   <ul>
     {% for movie in movies %}
-      <li><a href="{% url 'review:movie-detail' movie.id %}">{{ movie.title }}</a> - {{ movie.release_year }}</li>
+      <li class="movie-item">
+        <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link">{{ movie.title }}</a> - <span class="release-year">{{ movie.release_year }}</span>
+      </li>
     {% endfor %}
   </ul>
+</div>
 {% endblock %}

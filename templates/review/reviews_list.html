@@ -1,21 +1,23 @@
 {% extends "base.html" %}
+
 {% block content %}
+<div class="reviews-list">
   <h1>Reviews List</h1>
   {% if reviews_list %}
     <table class="table">
       <thead>
         <tr>
-          <th>Movie Title</th>
-          <th>Rating</th>
           <th>Reviewed By</th>
+          <th>Rating</th>
+          <th>Movie Title</th>
         </tr>
       </thead>
       <tbody>
         {% for review in reviews_list %}
           <tr>
-            <td><a href="{% url 'review:review-detail' pk=review.id %}">{{ review.movie.title }}</a></td>
-            <td>{{ review.rating }} stars</td>
-            <td>{{ review.user }}</td>
+            <td class="reviewer-name">{{ review.user }}</td>
+            <td class="rating">{{ review.rating }} stars</td>
+            <td><a href="{% url 'review:review-detail' pk=review.id %}" class="movie-title">{{ review.movie.title }}</a></td>
           </tr>
         {% empty %}
           <tr>
@@ -27,4 +29,5 @@
   {% else %}
     <p>There are no reviews.</p>
   {% endif %}
+</div>
 {% endblock %}

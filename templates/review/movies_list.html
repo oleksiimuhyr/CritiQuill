@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+
 {% block content %}
+<div class="movies-container">
   <h1>Movies List</h1>
   {% if movies_list %}
     <table class="table">
@@ -13,7 +15,7 @@
       <tbody>
         {% for movie in movies_list %}
           <tr>
-            <td><a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a></td>
+            <td><a href="{{ movie.get_absolute_url }}" class="movie-link">{{ movie.title }}</a></td>
             <td>{{ movie.release_year }}</td>
             <td>
               {% if movie.genre.all %}
@@ -25,7 +27,7 @@
           </tr>
         {% empty %}
           <tr>
-            <td colspan="3" >There are no movies.</td>
+            <td colspan="3">There are no movies.</td>
           </tr>
         {% endfor %}
       </tbody>
@@ -33,4 +35,5 @@
   {% else %}
     <p>There are no movies.</p>
   {% endif %}
+</div>
 {% endblock %}
