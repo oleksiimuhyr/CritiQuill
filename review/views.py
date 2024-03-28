@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -30,8 +31,12 @@ def index(request):
 
 
 def all_genres(request):
-    genres = Genre.objects.all()
-    return render(request, 'review/all_genres.html', {'genres': genres})
+        genres_list = Genre.objects.all()
+        paginator = Paginator(genres_list, 5)  # Paginate by 5 genres per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        is_paginated = page_obj.has_other_pages()
+        return render(request, 'review/all_genres.html', {'genres': page_obj, 'paginator': paginator, 'page_obj': page_obj, 'is_paginated': is_paginated})
 
 
 def all_genre_movies(request, genre_id):
