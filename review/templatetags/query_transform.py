@@ -1,10 +1,15 @@
+from typing import Dict, Union
+
 from django import template
+from django.http import HttpRequest, HttpResponse
+
 
 register = template.Library()
 
 
 @register.simple_tag
-def query_transform(request, **kwargs):
+def query_transform(request: HttpRequest,
+                    **kwargs: Dict[str, Union[str, None]]) -> HttpResponse:
     updated = request.GET.copy()
     for key, value in kwargs.items():
         if value is not None:

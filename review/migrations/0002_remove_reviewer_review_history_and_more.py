@@ -17,7 +17,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='reviewer',
             name='favourite_movies',
-            field=models.ManyToManyField(related_name='favourite_movies', to='review.movie'),
+            field=models.ManyToManyField(
+                related_name='favourite_movies', to='review.movie'
+            ),
         ),
         migrations.AlterField(
             model_name='genre',

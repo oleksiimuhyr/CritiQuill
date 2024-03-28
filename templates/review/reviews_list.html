@@ -32,9 +32,9 @@
             <td class="reviewer-name">{{ review.user }}</td>
             <td class="rating">{{ review.rating }} stars</td>
             <td>
-                <a href="{% url 'review:movie-detail' pk=review.movie.id %}" class="movie-title">
-                    {{ review.movie.title }}
-                </a>
+                <a href="{% url 'review:movie-detail' movie_id=review.movie.id %}" class="movie-title">
+    {{ review.movie.title }}
+</a>
             </td>
             <td>
                 <a href="{% url 'review:review-detail' pk=review.id %}" class="review-detail">

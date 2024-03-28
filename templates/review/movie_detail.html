@@ -27,7 +27,24 @@
     </ul>
   {% else %}
     <p>No reviews yet.</p>
+  {% endif %}  
+
+  <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
+
+  <br><br> <!-- Add space between review button and favorite button -->
+
+  {% if request.user.is_authenticated %}
+    {% if is_favorite %}
+      <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="remove_from_favorites" class="btn btn-danger" style="border: none;">Remove from Favorites</button>
+      </form>
+    {% else %}
+      <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="add_to_favorites" class="btn btn-success" style="border: none;">Add to Favorites</button>
+      </form>
+    {% endif %}
   {% endif %}
-   <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
 </div>
 {% endblock %}
