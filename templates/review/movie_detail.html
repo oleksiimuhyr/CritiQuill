@@ -28,8 +28,6 @@
   {% else %}
     <p>No reviews yet.</p>
   {% endif %}
-
-  <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
-
+   <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
 </div>
 {% endblock %}

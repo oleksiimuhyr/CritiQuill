@@ -7,8 +7,7 @@ from .views import (MovieListView,
                     MovieCreateView,
                     GenreCreateView,
                     create_review,
-                    ReviewerListView,
-                    )
+                    ReviewerListView,)
 
 app_name = "review"
 

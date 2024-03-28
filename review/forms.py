@@ -58,3 +58,11 @@ class GenreSearchForm(forms.Form):
         required=False,
         label="",
         widget=forms.TextInput(attrs={"placeholder": "search by genre"}))
+
+
+class ReviewSearchForm(forms.Form):
+    query = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "search by movie"}))
+

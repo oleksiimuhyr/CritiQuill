@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import (MovieCreateForm, GenreForm, ReviewForm,
-                    MovieSearchForm, GenreSearchForm)
+                    MovieSearchForm, GenreSearchForm, ReviewSearchForm)
 from .models import Movie, Review, Genre, Reviewer
 
 
@@ -116,6 +116,18 @@ class ReviewListView(generic.ListView):
     template_name = "review/reviews_list.html"
     context_object_name = "reviews_list"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        title = self.request.GET.get('query')
+        if title:
+            queryset = queryset.filter(movie__title__icontains=title)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReviewSearchForm(self.request.GET)
+        return context
 
 
 class ReviewDetailView(generic.DetailView):
