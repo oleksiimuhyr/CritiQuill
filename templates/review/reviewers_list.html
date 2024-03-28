@@ -1,28 +1,29 @@
-{#{% extends "base.html" %}#}
-{#{% block content %}#}
-{#  <h1>Reviewers List</h1>#}
-{#  {% if reviewer_list %}#}
-{#    <table class="table">#}
-{#      <thead>#}
-{#        <tr>#}
-{#          <th>Reviewer</th>#}
-{#          <th>Number of Reviews</th>#}
-{#        </tr>#}
-{#      </thead>#}
-{#      <tbody>#}
-{#        {% for reviewer in reviewer_list %}#}
-{#          <tr>#}
-{#            <td>{{ reviewer.username }}</td>#}
-{#            <td>{{ reviewer.review_count }}</td>#}
-{#          </tr>#}
-{#        {% empty %}#}
-{#          <tr>#}
-{#            <td colspan="2" >There are no reviewers.</td>#}
-{#          </tr>#}
-{#        {% endfor %}#}
-{#      </tbody>#}
-{#    </table>#}
-{#  {% else %}#}
-{#    <p>There are no reviewers.</p>#}
-{#  {% endif %}#}
-{#{% endblock %}#}
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Reviewers List</h1>
+  {% if reviewer_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Reviewer</th>
+          <th>Number of Favourite Movies</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reviewer in reviewer_list %}
+          <tr>
+            <td>{{ reviewer.username }}</td>
+            <td>{{ reviewer.favourite_movies_count }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="2">There are no reviewers.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no reviewers.</p>
+  {% endif %}
+{% endblock %}

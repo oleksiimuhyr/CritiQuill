@@ -25,11 +25,11 @@ class Movie(models.Model):
 
 
 class Reviewer(AbstractUser):
-    review_history = models.ManyToManyField(Movie, related_name="reviewed_by")
+    favourite_movies = models.ManyToManyField('Movie', related_name="favourite_movies")
 
-    # @property
-    # def review_count(self):
-    #     return self.review_history.count()
+    @property
+    def favourite_movies_count(self):
+        return self.favourite_movies.count()
 
     def __str__(self):
         return self.username

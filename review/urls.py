@@ -6,7 +6,9 @@ from .views import (MovieListView,
                     ReviewDetailView,
                     MovieCreateView,
                     GenreCreateView,
-                    create_review)
+                    create_review,
+                    ReviewerListView,
+                    )
 
 app_name = "review"
 
@@ -21,6 +23,6 @@ urlpatterns = [
     path("reviews/", ReviewListView.as_view(), name="reviews-list"),
     path("reviews/<int:pk>/", ReviewDetailView.as_view(), name="review-detail"),
     path('reviews/create/', create_review, name='create-review'),
-    # path("reviewers/", ReviewerListView.as_view(), name="reviewers-list"),
-
+    path('write_review/<int:movie_id>/', views.create_review, name='write_review'),
+    path("reviewers/", ReviewerListView.as_view(), name="reviewers-list"),
 ]

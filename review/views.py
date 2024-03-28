@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import MovieForm, GenreForm, ReviewForm
+from .forms import MovieCreateForm, GenreForm, ReviewForm
 from .models import Movie, Review, Genre, Reviewer
 
 
@@ -52,8 +52,15 @@ class MovieDetailView(generic.DetailView):
 
 class MovieCreateView(LoginRequiredMixin, generic.CreateView):
     model = Movie
-    form_class = MovieForm
+    form_class = MovieCreateForm
     success_url = reverse_lazy("review:movies-list")
+
+    def form_valid(self, form):
+        movie = form.save(commit=False)
+        movie.save()
+        genres = form.cleaned_data.get('genres')
+        movie.genre.add(*genres)
+        return super().form_valid(form)
 
 
 class MovieListView(generic.ListView):
@@ -76,21 +83,29 @@ class ReviewDetailView(generic.DetailView):
 
 
 @login_required
-def create_review(request):
+def create_review(request, movie_id=None):
+    if movie_id:
+        movie = get_object_or_404(Movie, pk=movie_id)
+        initial_data = {'movie': movie}
+    else:
+        initial_data = None
+
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.user = request.user  # Associate the review with the authenticated user
+            review.user = request.user
             review.save()
-            return redirect('review:reviews-list')  # Redirect to the reviews list page
+            return redirect('review:reviews-list')
     else:
-        form = ReviewForm()
+        form = ReviewForm(initial=initial_data)
     return render(request, 'review/review_form.html', {'form': form})
 
 
-# class ReviewerListView(generic.ListView):
-#     model = Reviewer
-#     template_name = "review/reviewers_list.html"
-#     context_object_name = "reviewer_list"
-#     paginate_by = 5
+class ReviewerListView(generic.ListView):
+    model = Reviewer
+    template_name = "review/reviewers_list.html"
+    context_object_name = "reviewer_list"
+    paginate_by = 5
+
+

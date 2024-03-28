@@ -4,13 +4,13 @@
 <div class="movie-details">
   <h1>Title: {{ movie.title }}</h1>
   <hr>
-  <p><span class="genre">Genre:</span>
+  <p><strong>Genres:</strong>
     {% if movie.genre.all %}
       {% for genre in movie.genre.all %}
         {{ genre.name }}{% if not forloop.last %}, {% endif %}
       {% endfor %}
     {% else %}
-      No genres listed
+      No genres specified
     {% endif %}
   </p>
   <p><strong>Release year:</strong> {{ movie.release_year }}</p>
@@ -28,5 +28,8 @@
   {% else %}
     <p>No reviews yet.</p>
   {% endif %}
+
+  <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
+
 </div>
 {% endblock %}

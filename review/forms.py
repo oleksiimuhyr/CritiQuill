@@ -1,13 +1,10 @@
 from django import forms
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from review.models import Movie, Genre, Review
 
-from review.models import Movie, Genre, Review, Reviewer
 
-
-class MovieForm(forms.ModelForm):
+class MovieCreateForm(forms.ModelForm):
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -21,14 +18,20 @@ class MovieForm(forms.ModelForm):
         release_year = self.cleaned_data.get('release_year')
         current_year = timezone.now().year
         if release_year < 1888 or release_year > current_year:
-            raise ValidationError("Release year must be between 1888 and the current year.")
+            raise forms.ValidationError("Release year must be between 1888 and the current year.")
         return release_year
 
 
 class GenreForm(forms.ModelForm):
     class Meta:
         model = Genre
-        fields = "__all__"
+        fields = ["name"]
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name.isalpha():
+            raise ValidationError('Genre name should only contain alphabetic characters.')
+        return name
 
 
 class ReviewForm(forms.ModelForm):
