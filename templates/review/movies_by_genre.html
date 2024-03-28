@@ -3,12 +3,17 @@
 {% block content %}
 <div class="movies-by-genre">
   <h1>{{ genre.name }} Movies</h1>
-  <ul>
-    {% for movie in movies %}
-      <li class="movie-item">
-        <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link">{{ movie.title }}</a> - <span class="release-year">{{ movie.release_year }}</span>
-      </li>
-    {% endfor %}
-  </ul>
+  {% if movies %}
+    <ul>
+      {% for movie in movies %}
+        <li class="movie-item">
+          <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link">{{ movie.title }}</a> - <span class="release-year">{{ movie.release_year }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No {{ genre.name }} movies so far. Be the first to add one.</p>
+    <a href="{% url 'review:movie-create' %}" class="btn btn-primary">Add a Movie</a>
+  {% endif %}
 </div>
 {% endblock %}

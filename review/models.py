@@ -7,6 +7,9 @@ from django.urls import reverse
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -16,6 +19,9 @@ class Movie(models.Model):
     description = models.TextField(blank=True, null=True)
     genre = models.ManyToManyField(Genre)
     release_year = models.IntegerField()
+
+    class Meta:
+        ordering = ("title", "release_year", )
 
     def __str__(self):
         return self.title
@@ -50,6 +56,9 @@ class Review(models.Model):
     rating = models.IntegerField(choices=RATING_CHOICES)
     review_text = models.TextField()
     added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-rating"]
 
     def __str__(self):
         return f"{self.user} - {self.movie.title}"

@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -9,7 +10,6 @@ from .forms import MovieCreateForm, GenreForm, ReviewForm
 from .models import Movie, Review, Genre, Reviewer
 
 
-@login_required
 def index(request):
     """View function for the home page of the site."""
 
@@ -31,12 +31,14 @@ def index(request):
 
 
 def all_genres(request):
-        genres_list = Genre.objects.all()
-        paginator = Paginator(genres_list, 5)  # Paginate by 5 genres per page
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        is_paginated = page_obj.has_other_pages()
-        return render(request, 'review/all_genres.html', {'genres': page_obj, 'paginator': paginator, 'page_obj': page_obj, 'is_paginated': is_paginated})
+    genres_list = Genre.objects.all()
+    paginator = Paginator(genres_list, 5)  # Paginate by 5 genres per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    is_paginated = page_obj.has_other_pages()
+    return render(request,
+                  'review/all_genres.html',
+                  {'genres': page_obj, 'paginator': paginator, 'page_obj': page_obj, 'is_paginated': is_paginated})
 
 
 def all_genre_movies(request, genre_id):
@@ -112,5 +114,3 @@ class ReviewerListView(generic.ListView):
     template_name = "review/reviewers_list.html"
     context_object_name = "reviewer_list"
     paginate_by = 5
-
-
