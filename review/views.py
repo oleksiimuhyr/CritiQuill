@@ -69,6 +69,13 @@ class MovieCreateView(LoginRequiredMixin, generic.CreateView):
         movie.genre.add(*genres)
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        genre_id = self.request.GET.get('genre_id')
+        if genre_id:
+            kwargs['initial'] = {'genres': [genre_id]}  # Preselect genre
+        return kwargs
+
 
 class MovieListView(generic.ListView):
     model = Movie
