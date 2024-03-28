@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="movies-by-genre">
+  <h1>{{ genre.name }} Movies</h1>
+  {% if movies %}
+    <ul>
+      {% for movie in movies %}
+        <li class="movie-item">
+          <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link">{{ movie.title }}</a> - <span class="release-year">{{ movie.release_year }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'review:movie-create' %}?genre_id={{ genre.id }}" class="btn btn-primary">Add another {{ genre.name }} Movie</a>
+  {% else %}
+    <p>No {{ genre.name }} movies so far. Be the first to add one.</p>
+    <a href="{% url 'review:movie-create' %}?genre_id={{ genre.id }}" class="btn btn-primary">Add a {{ genre.name }} Movie</a>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block sidebar %}
+    {% include "includes/sidebar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container custom-background">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header"><h1 class="card-title">Welcome to CritiQuill</h1></div>
+                <div class="card-body">
+                    <p class="card-text" style="font-family: 'Helvetica Neue', sans-serif; font-size: 18px; line-height: 1.5; color: #333; text-align: justify;">
+  CritiQuill is open for you if you love movies and even more if you like to express your feelings about them.
+</p>
+                  <p class="card-text" style="font-size: 25px"><i>At this moment we have:</i></p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>{{ num_movies }}</b> <strong>movies</strong> </li>
+                        <li class="list-group-item"><b>{{ num_reviews }} </b><strong>reviews</strong> </li>
+                        <li class="list-group-item"><b>{{ num_genres }}</b> <strong>genres</strong> </li>
+                        <li class="list-group-item"><b>{{ num_reviewers }}</b> <strong>active users</strong> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% crispy form %}
+{% endblock %}
