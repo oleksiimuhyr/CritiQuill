@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <div class="text-right mb-3">
+  {% if not existing_genre %}
+    <a href="{% url 'review:genre-create' %}" class="btn btn-primary">Add New Genre</a>
+  {% endif %}
+</div>
 <div class="genres-container">
   <h1>All Genres</h1>
   <ul>

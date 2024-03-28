@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <div class="text-right mb-3">
+  {% if not existing_review %}
+    <a href="{% url 'review:create-review' %}" class="btn btn-primary">Write Review</a>
+  {% endif %}
+</div>
 <div class="reviews-list">
   <h1>Reviews List</h1>
   {% if reviews_list %}

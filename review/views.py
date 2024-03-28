@@ -1,6 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import generic
+
+from .forms import MovieForm, GenreForm, ReviewForm
 from .models import Movie, Review, Genre, Reviewer
 
 
@@ -36,8 +40,20 @@ def all_genre_movies(request, genre_id):
     return render(request, 'review/movies_by_genre.html', {'genre': genre, 'movies': movies})
 
 
+class GenreCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Genre
+    form_class = GenreForm
+    success_url = reverse_lazy("review:all_genres")
+
+
 class MovieDetailView(generic.DetailView):
     model = Movie
+
+
+class MovieCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Movie
+    form_class = MovieForm
+    success_url = reverse_lazy("review:movies-list")
 
 
 class MovieListView(generic.ListView):
@@ -57,6 +73,20 @@ class ReviewListView(generic.ListView):
 
 class ReviewDetailView(generic.DetailView):
     model = Review
+
+
+@login_required
+def create_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user  # Associate the review with the authenticated user
+            review.save()
+            return redirect('review:reviews-list')  # Redirect to the reviews list page
+    else:
+        form = ReviewForm()
+    return render(request, 'review/review_form.html', {'form': form})
 
 
 # class ReviewerListView(generic.ListView):

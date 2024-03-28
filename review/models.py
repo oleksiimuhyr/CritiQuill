@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -13,7 +13,7 @@ class Genre(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=255, unique=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     genre = models.ManyToManyField(Genre)
     release_year = models.IntegerField()
 

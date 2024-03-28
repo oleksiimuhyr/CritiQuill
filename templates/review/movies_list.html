@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="text-right mb-3">
+  {% if not existing_movie %}
+    <a href="{% url 'review:movie-create' %}" class="btn btn-primary">Add New Movie</a>
+  {% endif %}
+</div>
+
 <div class="movies-container">
   <h1>Movies List</h1>
   {% if movies_list %}
