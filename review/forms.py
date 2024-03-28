@@ -42,3 +42,19 @@ class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)
         self.fields['movie'].queryset = Movie.objects.all()
+
+
+class MovieSearchForm(forms.Form):
+    title = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "search by title"}),
+    )
+
+
+class GenreSearchForm(forms.Form):
+    query = forms.CharField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "search by genre"}))

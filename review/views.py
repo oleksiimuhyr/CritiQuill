@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import MovieCreateForm, GenreForm, ReviewForm
+from .forms import (MovieCreateForm, GenreForm, ReviewForm,
+                    MovieSearchForm, GenreSearchForm)
 from .models import Movie, Review, Genre, Reviewer
 
 
@@ -31,14 +31,23 @@ def index(request):
 
 
 def all_genres(request):
+    form = GenreSearchForm(request.GET)
     genres_list = Genre.objects.all()
-    paginator = Paginator(genres_list, 5)  # Paginate by 5 genres per page
+
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        if query:
+            genres_list = genres_list.filter(name__icontains=query)
+
+    paginator = Paginator(genres_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     is_paginated = page_obj.has_other_pages()
+
     return render(request,
                   'review/all_genres.html',
-                  {'genres': page_obj, 'paginator': paginator, 'page_obj': page_obj, 'is_paginated': is_paginated})
+                  {'genres': page_obj, 'paginator': paginator, 'page_obj': page_obj, 'is_paginated': is_paginated,
+                   'form': form})
 
 
 def all_genre_movies(request, genre_id):
@@ -83,6 +92,23 @@ class MovieListView(generic.ListView):
     template_name = "review/movies_list.html"
     context_object_name = "movies_list"
     paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MovieListView, self).get_context_data(**kwargs)
+        title = self.request.GET.get("title", "")
+        context["search_form"] = MovieSearchForm(
+            initial={"title": title}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Movie.objects.prefetch_related("genre")
+        form = MovieSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(
+                title__icontains=form.cleaned_data["title"]
+            )
+        return queryset
 
 
 class ReviewListView(generic.ListView):

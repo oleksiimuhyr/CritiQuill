@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="text-right mb-3">
+<div class="d-flex justify-content-between align-items-center">
+  <div class="text-left">
+    <form method="get" action="" class="form-inline">
+  {{ form }}
+  <input style="margin-left: 10px" class="btn btn-info" type="submit" value="Search">
+</form>
+  </div>
+  <div class="text-right">
     {% if not existing_genre %}
       <a href="{% url 'review:genre-create' %}" class="btn btn-primary">Add New Genre</a>
     {% endif %}
   </div>
-  
-  <div class="genres-container">
+</div>
+
+<div class="genres-container">
     <h1>All Genres</h1>
     <ul>
-      {% for genre in genres %}
+        {% for genre in genres %}
         <li class="genre-item">
-          <a href="{% url "review:all-genre-movies" genre.id %}" class="genre-link">{{ genre.name }}</a>
+            <a href="{% url "review:all-genre-movies" genre.id %}" class="genre-link">{{ genre.name }}</a>
         </li>
-      {% endfor %}
+        {% endfor %}
     </ul>
-  </div>
+</div>
 {% endblock %}
