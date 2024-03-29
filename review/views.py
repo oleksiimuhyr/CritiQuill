@@ -1,11 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.generic import DetailView, ListView
 
 from .forms import (
@@ -20,17 +19,11 @@ from .models import Movie, Review, Genre, Reviewer
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    """
-    View function for the home page of the site.
-    """
 
     num_movies = Movie.objects.count()
     num_genres = Genre.objects.count()
     num_reviews = Review.objects.count()
     num_reviewers = Reviewer.objects.count()
-
-    # num_visits = request.session.get('num_visits', 0)
-    # request.session['num_visits'] = num_visits + 1
 
     context = {
         'num_movies': num_movies,
@@ -150,25 +143,27 @@ class ReviewDetailView(LoginRequiredMixin, DetailView):
     model = Review
 
 
-@login_required
-def create_review(request: HttpRequest,
-                  movie_id: int = None) -> HttpResponse:
-    if movie_id:
-        movie = get_object_or_404(Movie, pk=movie_id)
-        initial_data = {'movie': movie}
-    else:
-        initial_data = None
+class CreateReviewView(LoginRequiredMixin, View):
+    def get_initial_data(self, movie_id):
+        if movie_id:
+            movie = get_object_or_404(Movie, pk=movie_id)
+            return {'movie': movie}
+        return None
 
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
+    def get(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+        initial_data = self.get_initial_data(movie_id)
+        form = ReviewForm(initial=initial_data)
+        return render(request, 'review/review_form.html', {'form': form})
+
+    def post(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+        initial_data = self.get_initial_data(movie_id)
+        form = ReviewForm(request.POST, initial=initial_data)
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
             review.save()
             return redirect('review:reviews-list')
-    else:
-        form = ReviewForm(initial=initial_data)
-    return render(request, 'review/review_form.html', {'form': form})
+        return render(request, 'review/review_form.html', {'form': form})
 
 
 class ReviewerListView(LoginRequiredMixin, ListView):
@@ -184,21 +179,23 @@ class ReviewerDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'reviewer'
 
 
-@login_required
-def movie_detail(request: HttpRequest, movie_id: int = None) -> HttpResponse:
-    movie = get_object_or_404(Movie, pk=movie_id)
-    user = request.user
+class MovieDetailView(LoginRequiredMixin, DetailView):
+    def get(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+        movie = get_object_or_404(Movie, pk=movie_id)
+        user = request.user
+        is_favorite = movie in user.favourite_movies.all()
+        context = {
+            'movie': movie,
+            'is_favorite': is_favorite,
+        }
+        return render(request, 'review/movie_detail.html', context)
 
-    if request.method == 'POST':
+    def post(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+        movie = get_object_or_404(Movie, pk=movie_id)
+        user = request.user
+
         if 'add_to_favorites' in request.POST:
             user.favourite_movies.add(movie)
         elif 'remove_from_favorites' in request.POST:
             user.favourite_movies.remove(movie)
         return redirect('review:movie-detail', movie_id=movie_id)
-
-    is_favorite = movie in user.favourite_movies.all()
-    context = {
-        'movie': movie,
-        'is_favorite': is_favorite,
-    }
-    return render(request, 'review/movie_detail.html', context)
