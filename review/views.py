@@ -144,18 +144,20 @@ class ReviewDetailView(LoginRequiredMixin, DetailView):
 
 
 class CreateReviewView(LoginRequiredMixin, View):
-    def get_initial_data(self, movie_id):
+    def get_initial_data(self: View, movie_id: int) -> None | dict:
         if movie_id:
             movie = get_object_or_404(Movie, pk=movie_id)
             return {'movie': movie}
         return None
 
-    def get(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+    def get(self: View,
+            request: HttpRequest, movie_id: int = None) -> HttpResponse:
         initial_data = self.get_initial_data(movie_id)
         form = ReviewForm(initial=initial_data)
         return render(request, 'review/review_form.html', {'form': form})
 
-    def post(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+    def post(self: View,
+             request: HttpRequest, movie_id: int = None) -> HttpResponse:
         initial_data = self.get_initial_data(movie_id)
         form = ReviewForm(request.POST, initial=initial_data)
         if form.is_valid():
@@ -180,7 +182,8 @@ class ReviewerDetailView(LoginRequiredMixin, DetailView):
 
 
 class MovieDetailView(LoginRequiredMixin, DetailView):
-    def get(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+    def get(self: View,
+            request: HttpRequest, movie_id: int = None) -> HttpResponse:
         movie = get_object_or_404(Movie, pk=movie_id)
         user = request.user
         is_favorite = movie in user.favourite_movies.all()
@@ -190,7 +193,8 @@ class MovieDetailView(LoginRequiredMixin, DetailView):
         }
         return render(request, 'review/movie_detail.html', context)
 
-    def post(self, request: HttpRequest, movie_id: int = None) -> HttpResponse:
+    def post(self: View,
+             request: HttpRequest, movie_id: int = None) -> HttpResponse:
         movie = get_object_or_404(Movie, pk=movie_id)
         user = request.user
 
