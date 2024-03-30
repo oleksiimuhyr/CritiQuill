@@ -1,5 +1,3 @@
-from typing import Dict
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
@@ -52,7 +50,7 @@ class AllGenresView(ListView):
         return queryset
 
     def get_context_data(self: View,
-                         **kwargs: None) -> Dict[str, GenreSearchForm]:
+                         **kwargs: None) -> [str, GenreSearchForm]:
         context = super().get_context_data(**kwargs)
         context['form'] = GenreSearchForm(self.request.GET)
         return context
@@ -63,7 +61,7 @@ class GenreMoviesView(DetailView):
     template_name = 'review/movies_by_genre.html'
     context_object_name = 'genre'
 
-    def get_context_data(self: View, **kwargs: None) -> Dict[str]:
+    def get_context_data(self: View, **kwargs: None) -> [str]:
         context = super().get_context_data(**kwargs)
         genre = self.get_object()
         context['movies'] = Movie.objects.filter(genre=genre)
