@@ -8,25 +8,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("review", "0004_remove_reviewer_reviews"),
+        ('review', '0004_remove_reviewer_reviews'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="review",
-            name="movie",
+            model_name='review',
+            name='movie',
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="movie_reviews",
-                to="review.movie",
+                related_name='movie_reviews',
+                to='review.movie',
             ),
         ),
         migrations.AlterField(
-            model_name="review",
-            name="user",
+            model_name='review',
+            name='user',
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="review_author",
+                related_name='review_author',
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
