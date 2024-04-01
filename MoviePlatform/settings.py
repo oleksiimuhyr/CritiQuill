@@ -18,8 +18,7 @@ from pathlib import Path
 # load_dotenv()
 
 # Access SECRET_KEY
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-5+fk!i9$@1-60df236"
-              "#n!!a73y9flg8eoqpoj@74+xxa38n0l2")
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
