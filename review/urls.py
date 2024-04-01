@@ -17,7 +17,7 @@ from .views import (
 app_name = 'review'
 
 urlpatterns = [
-    path('review/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('genres/', AllGenresView.as_view(),
          name='all_genres'),
     path('genres/<int:pk>/',
