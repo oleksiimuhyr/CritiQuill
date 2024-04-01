@@ -10,15 +10,18 @@ from .views import (
     ReviewerDetailView,
     MovieDetailView,
     CreateReviewView,
+    AllGenresView,
+    GenreMoviesView,
 )
 
 app_name = 'review'
 
 urlpatterns = [
     path('review/', views.index, name='index'),
-    path('genres/', views.all_genres, name='all_genres'),
-    path('genres/<int:genre_id>/',
-         views.all_genre_movies, name='all-genre-movies'),
+    path('genres/', AllGenresView.as_view(),
+         name='all_genres'),
+    path('genres/<int:pk>/',
+         GenreMoviesView.as_view(), name='all-genre-movies'),
     path('genres/create/', GenreCreateView.as_view(), name='genre-create'),
     path('movies/', MovieListView.as_view(), name='movies-list'),
     path('movies/<int:movie_id>/',

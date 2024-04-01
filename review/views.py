@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -35,40 +34,38 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, 'review/index.html', context=context)
 
 
-def all_genres(request: HttpRequest) -> HttpResponse:
-    form = GenreSearchForm(request.GET)
-    genres_list = Genre.objects.all()
+class AllGenresView(ListView):
+    model = Genre
+    template_name = 'review/all_genres.html'
+    context_object_name = 'genres'
+    paginate_by = 5
 
-    if form.is_valid():
-        query = form.cleaned_data.get('query')
-        if query:
-            genres_list = genres_list.filter(name__icontains=query)
+    def get_queryset(self: View) -> QuerySet:
+        queryset = super().get_queryset()
+        form = GenreSearchForm(self.request.GET)
+        if form.is_valid():
+            query = form.cleaned_data.get('query')
+            if query:
+                queryset = queryset.filter(name__icontains=query)
+        return queryset
 
-    paginator = Paginator(genres_list, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    is_paginated = page_obj.has_other_pages()
-
-    return render(
-        request,
-        'review/all_genres.html',
-        {
-            'genres': page_obj,
-            'paginator': paginator,
-            'page_obj': page_obj,
-            'is_paginated': is_paginated,
-            'form': form,
-        },
-    )
+    def get_context_data(self: View,
+                         **kwargs: None) -> [str, GenreSearchForm]:
+        context = super().get_context_data(**kwargs)
+        context['form'] = GenreSearchForm(self.request.GET)
+        return context
 
 
-def all_genre_movies(request: HttpRequest, genre_id: int) -> HttpResponse:
-    genre = get_object_or_404(Genre, pk=genre_id)
-    movies = Movie.objects.filter(genre=genre)
-    return render(
-        request, 'review/movies_by_genre.html',
-        {'genre': genre, 'movies': movies}
-    )
+class GenreMoviesView(DetailView):
+    model = Genre
+    template_name = 'review/movies_by_genre.html'
+    context_object_name = 'genre'
+
+    def get_context_data(self: View, **kwargs: None) -> [str]:
+        context = super().get_context_data(**kwargs)
+        genre = self.get_object()
+        context['movies'] = Movie.objects.filter(genre=genre)
+        return context
 
 
 class GenreCreateView(LoginRequiredMixin, generic.CreateView):
