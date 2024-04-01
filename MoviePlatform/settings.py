@@ -15,10 +15,10 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 # # Load environment variables from .env
-# load_dotenv()
+load_dotenv()
 
 # Access SECRET_KEY
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -36,7 +36,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1",
+                 "https://critiquill.onrender.com"]
 
 
 # Application definition
@@ -140,15 +141,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT ="staticfiles/"
+STATIC_ROOT = "staticfiles/"
 
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
-# STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
