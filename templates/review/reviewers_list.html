@@ -1,42 +1,68 @@
-{% extends "base.html" %}
+{% extends 'layouts/base_background.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block title %} Reviewers List {% endblock title %}
+{% block body %} class="blog-author bg-gray-200" {% endblock body %}
+
+{% block header %}
+  {% include 'includes/navigation.html' %}
+{% endblock header %}
 
 {% block content %}
-  <h1>Reviewers List</h1>
-  {% if reviewer_list %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Reviewer</th>
-          <th>Favourite Movies</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for reviewer in reviewer_list %}
-          <tr>
-            <td><a href="{% url 'review:reviewer-detail' pk=reviewer.pk %}">{{ reviewer.username }}</a></td>
-            <td>
-              {% if reviewer.favourite_movies.count > 0 %}
-                {% for movie in reviewer.favourite_movies.all|slice:":2" %}
-                  {{ movie.title }}
-                  {% if not forloop.last %}, {% endif %}
-                {% endfor %}
-                {% if reviewer.favourite_movies.count > 2 %}
-                  , ...
-                {% endif %}
-              {% else %}
-                No favourite movies
-              {% endif %}
-            </td>
+  <header>
+    <div class="page-header min-height-400" style="background-image: url('{% static 'img/360_F_562252610_Watb1rsYXzmDnCDqxA2CFEsS72o8D05E.jpg' %}');" loading="lazy">
+      <span class="mask bg-gradient-dark opacity-8"></span>
+    </div>
+  </header>
 
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="3">There are no reviewers.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no reviewers.</p>
-  {% endif %}
-{% endblock %}
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+    <section class="py-3">     
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="mb-5">Reviewers List</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Reviewer</th>
+                  <th>Favourite Movies</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reviewer in reviewer_list %}
+                  <tr>
+                    <td><a href="{% url 'review:reviewer-detail' pk=reviewer.pk %}" class="text-decoration-none">{{ reviewer.username }}</a></td>
+                    <td>
+                      {% if reviewer.favourite_movies.count > 0 %}
+                        {% for movie in reviewer.favourite_movies.all|slice:":2" %}
+                          {{ movie.title }}
+                          {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                        {% if reviewer.favourite_movies.count > 2 %}
+                          , ...
+                        {% endif %}
+                      {% else %}
+                        No favourite movies
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="2">There are no reviewers.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% include "includes/pagination.html" %}
+      </div>
+    </section>
+  </div>
+{% endblock content %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
 
 {% block content %}
 <div class="reviewer-details">
@@ -16,8 +16,19 @@
     </ul>
   {% else %}
     <p>No favourite movies specified.</p>
-  {% endif %}  
- 
+  {% endif %}
 
+  <h2>Reviews:</h2>
+  {% if reviewer.review_set.all %}
+    <ul class="reviews-list">
+      {% for review in reviewer.review_author.all %}
+        <li class="review-item">
+          <a href="{% url 'review:review-detail' pk=review.id %}" class="review-link" title="View review details">{{ review.review_text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews found for this reviewer.</p>
+  {% endif %}
 </div>
 {% endblock %}

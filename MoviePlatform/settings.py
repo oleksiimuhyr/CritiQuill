@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
     "review",
+    "theme_material_kit",
 ]
 
 MIDDLEWARE = [

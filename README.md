@@ -38,15 +38,17 @@ for MacOS python3.9 -m venv venv and source venv/bin/activate
 Write python manage.py runserver and push on http://127.0.0.1:8000/
 
 2. On server
+
 Some of pages don`t required login:
+
 Home page 
-![Sample Image](static/images/home_page.png)
+![Sample Image](static/img/home.png)
 Movies  lists
-![Sample Image](static/images/movies_list.png)
+![Sample Image](static/img/movies.png)
 Genres list
-![Sample Image](static/images/genres_list.png)
+![Sample Image](static/img/genres.png)
 To check all other possibilities of app got to login page
-![Sample Image](static/images/login_page.png)
+![Sample Image](static/img/login.png)
 and use this credentials:
 
 Username: movie.admin 

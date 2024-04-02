@@ -1,56 +1,82 @@
-{% extends "base.html" %}
+{% extends 'layouts/base_background.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block title %} {{ movie.title }} {% endblock title %}
+{% block body %} class="blog-author bg-gray-200" {% endblock body %}
+
+{% block header %}
+  {% include 'includes/navigation.html' %}
+{% endblock header %}
 
 {% block content %}
-<div class="container">
-  <div class="row justify-content-center"> <!-- Center the content -->
-    <div class="col-md-8">
-      <div class="movie-details">
-        <h1>Title: {{ movie.title }}</h1>
-        <hr>
-        <p><strong>Genres:</strong>
-          {% if movie.genre.all %}
-            {% for genre in movie.genre.all %}
-              {{ genre.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-          {% else %}
-            No genres specified
-          {% endif %}
-        </p>
-        <p><strong>Release year:</strong> {{ movie.release_year }}</p>
-        <hr>
-
-        <h2>Reviews:</h2>
-        {% if movie.review_set.all %}
-          <ul class="review-list">
-            {% for review in movie.review_set.all %}
-              <li class="review-item">
-                <a href="{% url 'review:review-detail' review.id %}" class="review-link" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>No reviews yet.</p>
-        {% endif %}  
-
-        <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
-
-        <br><br>
-
-        {% if request.user.is_authenticated %}
-          {% if is_favorite %}
-            <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" name="remove_from_favorites" class="btn btn-danger" style="border: none;">Remove from Favorites</button>
-            </form>
-          {% else %}
-            <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" name="add_to_favorites" class="btn btn-success" style="border: none;">Add to Favorites</button>
-            </form>
-          {% endif %}
-        {% endif %}
-      </div>
+  <header>
+    <div class="page-header min-height-400" style="background-image: url('{% static 'img/pexels-suzy-hazelwood-3886870.jpg' %}');"
+         loading="lazy">
+      <span class="mask bg-gradient-dark opacity-8"></span>
     </div>
+  </header>
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+    <section class="py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3 class="mb-5">Movie Details</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="movie-details">
+              <h1>Title: {{ movie.title }}</h1>
+              <hr>
+              <p><strong>Description:</strong> {{ movie.description }}</p>
+              <p><strong>Genres:</strong>
+                {% if movie.genre.all %}
+                  {% for genre in movie.genre.all %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+                {% else %}
+                  No genres specified
+                {% endif %}
+              </p>
+              <p><strong>Release year:</strong> {{ movie.release_year }}</p>
+              <hr>
+
+              <h2>Reviews:</h2>
+              {% if movie.reviews %}
+                <ul class="review-list">
+                  {% for review in movie.reviews.all %}
+                    <li class="review-item">
+                      <a href="{% url 'review:review-detail' review.id %}" class="review-link" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No reviews yet.</p>
+              {% endif %}  
+
+              <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
+
+              <br><br>
+
+              {% if request.user.is_authenticated %}
+                {% if is_favorite %}
+                  <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="remove_from_favorites" class="btn btn-danger" style="border: none;">Remove from Favorites</button>
+                  </form>
+                {% else %}
+                  <form action="{% url 'review:movie-detail' movie.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="add_to_favorites" class="btn btn-success" style="border: none;">Add to Favorites</button>
+                  </form>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
-{% endblock %}
+
+{% endblock content %}

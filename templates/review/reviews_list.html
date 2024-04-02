@@ -1,56 +1,76 @@
-{% extends "base.html" %}
+{% extends 'layouts/base_background.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block title %} Reviews List {% endblock title %}
+{% block body %} class="blog-author bg-gray-200" {% endblock body %}
+
+{% block header %}
+  {% include 'includes/navigation.html' %}
+{% endblock header %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center">
-  <div class="text-left">
-    <form method="get" action="" class="form-inline">
-      {{ form }}
-      <input style="margin-left: 10px" class="btn btn-info" type="submit" value="Search">
-    </form>
+  <header>
+    <div class="page-header min-height-400" style="background-image: url('{% static 'img/360_F_562252610_Watb1rsYXzmDnCDqxA2CFEsS72o8D05E.jpg' %}');" loading="lazy">
+      <span class="mask bg-gradient-dark opacity-8"></span>
+    </div>
+  </header>
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+    <section class="py-3">
+      <a href="{% url 'review:create-review' %}" class="btn btn-primary link-to-page float-end">
+        Write your Review
+      </a>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <h3 class="mb-5">Reviews List</h3>
+          </div>
+        </div>
+
+        <form action="" method="get" class="form-inline" data-width="auto">
+          <input type="text" name="query" class="form-control mb-2 mr-sm-2" placeholder="Search reviews">
+          <input class="btn btn-primary" type="submit" value="Search 🔍">
+        </form>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Reviewed By</th>
+                  <th>Rating</th>
+                  <th>Movie Title</th>
+                  <th>Review</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for review in reviews_list %}
+                <tr>
+                  <td class="reviewer-name">{{ review.user }}</td>
+                  <td class="rating">{{ review.rating }} stars</td>
+                  <td>
+                    <a href="{% url 'review:movie-detail' movie_id=review.movie.id %}" class="movie-title">
+                      {{ review.movie.title }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'review:review-detail' pk=review.id %}" class="review-detail">
+                      "{{ review.review_text|truncatechars:30 }}"...
+                    </a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="4">There are no reviews.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% include "includes/pagination.html" %} <!-- Pagination -->
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="text-right">
-    {% if not existing_review %}
-      <a href="{% url 'review:create-review' %}" class="btn review-btn btn-primary">Write your Review</a>
-    {% endif %}
-  </div>
-</div>
-<div class="reviews-list" style="margin-top: 20px;"> <!-- Add margin top -->
-  <h1>Reviews List</h1>
-  {% if reviews_list %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Reviewed By</th>
-          <th>Rating</th>
-          <th>Movie Title</th>
-          <th>Review</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for review in reviews_list %}
-        <tr>
-          <td class="reviewer-name">{{ review.user }}</td>
-          <td class="rating">{{ review.rating }} stars</td>
-          <td>
-            <a href="{% url 'review:movie-detail' movie_id=review.movie.id %}" class="movie-title">
-              {{ review.movie.title }}
-            </a>
-          </td>
-          <td>
-            <a href="{% url 'review:review-detail' pk=review.id %}" class="review-detail">
-              "{{ review.review_text|truncatechars:30 }}"...
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4">There are no reviews.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no reviews.</p>
-  {% endif %}
-</div>
-{% endblock %}
+{% endblock content %}

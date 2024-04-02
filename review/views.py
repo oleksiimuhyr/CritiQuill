@@ -40,7 +40,7 @@ class AllGenresView(ListView):
     context_object_name = 'genres'
     paginate_by = 5
 
-    def get_queryset(self: View) -> QuerySet:
+    def get_queryset(self):
         queryset = super().get_queryset()
         form = GenreSearchForm(self.request.GET)
         if form.is_valid():
@@ -49,10 +49,9 @@ class AllGenresView(ListView):
                 queryset = queryset.filter(name__icontains=query)
         return queryset
 
-    def get_context_data(self: View,
-                         **kwargs: None) -> [str, GenreSearchForm]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = GenreSearchForm(self.request.GET)
+        context['search_form'] = GenreSearchForm(self.request.GET)
         return context
 
 

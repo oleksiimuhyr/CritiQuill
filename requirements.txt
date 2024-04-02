@@ -6,6 +6,7 @@ crispy-bootstrap4==2024.1
 dj-database-url==2.1.0
 Django==5.0.3
 django-crispy-forms==2.1
+django-theme-material-kit==1.0.19
 gunicorn==21.2.0
 mypy-extensions==1.0.0
 packaging==24.0
