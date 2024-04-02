@@ -15,13 +15,14 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
         crossorigin="anonymous">
     <!-- Add additional CSS in static file -->
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">    
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
 </head>
 
 <body class="background">
-    <div class="container-fluid main-content ">
+    <div class="container-fluid main-content">
         <div class="row">
-            <div class="col-md-3 col-lg-2">
+            <div class="col-md-3 col-lg-2 d-md-block">
                 {% block sidebar %}
                 {% include "includes/sidebar.html" %}
                 {% endblock %}
@@ -38,7 +39,9 @@
     </div>
 
     <!-- Footer -->
-    {% include "includes/footer.html" %}
+    <footer class="footer d-md-block">      
+        {% include "includes/footer.html" %}
+    </footer>
     <!-- End of Footer -->
 
 </body>

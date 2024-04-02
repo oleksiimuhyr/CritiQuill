@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
- <div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between align-items-center">
   <div class="text-left">
     <form method="get" action="" class="form-inline">
       {{ form }}
@@ -10,45 +10,45 @@
   </div>
   <div class="text-right">
     {% if not existing_review %}
-      <a href="{% url 'review:create-review' %}" class="btn btn-primary">Write your Review</a>
+      <a href="{% url 'review:create-review' %}" class="btn review-btn btn-primary">Write your Review</a>
     {% endif %}
   </div>
 </div>
-<div class="reviews-list">
+<div class="reviews-list" style="margin-top: 20px;"> <!-- Add margin top -->
   <h1>Reviews List</h1>
   {% if reviews_list %}
     <table class="table">
-    <thead>
+      <thead>
         <tr>
-            <th>Reviewed By</th>
-            <th>Rating</th>
-            <th>Movie Title</th>
-            <th>Review</th>
+          <th>Reviewed By</th>
+          <th>Rating</th>
+          <th>Movie Title</th>
+          <th>Review</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for review in reviews_list %}
         <tr>
-            <td class="reviewer-name">{{ review.user }}</td>
-            <td class="rating">{{ review.rating }} stars</td>
-            <td>
-                <a href="{% url 'review:movie-detail' movie_id=review.movie.id %}" class="movie-title">
-    {{ review.movie.title }}
-</a>
-            </td>
-            <td>
-                <a href="{% url 'review:review-detail' pk=review.id %}" class="review-detail">
-                    "{{ review.review_text|truncatechars:30 }}"...
-                </a>
-            </td>
+          <td class="reviewer-name">{{ review.user }}</td>
+          <td class="rating">{{ review.rating }} stars</td>
+          <td>
+            <a href="{% url 'review:movie-detail' movie_id=review.movie.id %}" class="movie-title">
+              {{ review.movie.title }}
+            </a>
+          </td>
+          <td>
+            <a href="{% url 'review:review-detail' pk=review.id %}" class="review-detail">
+              "{{ review.review_text|truncatechars:30 }}"...
+            </a>
+          </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4">There are no reviews.</td>
+          <td colspan="4">There are no reviews.</td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
   {% else %}
     <p>There are no reviews.</p>
   {% endif %}

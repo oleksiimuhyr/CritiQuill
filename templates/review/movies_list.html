@@ -8,14 +8,14 @@
       <input style="margin-left: 10px" class="btn btn-info" type="submit" value="Search">
     </form>
   </div>
-  <div class="text-right">
+  <div class="text-left">
     {% if not existing_movie %}
-      <a href="{% url 'review:movie-create' %}" class="btn btn-primary">Add New Movie</a>
+      <a href="{% url 'review:movie-create' %}" class="btn review-btn btn-primary">Add New Movie</a>
     {% endif %}
   </div>
 </div>
  
-<div class="movies-container">
+<div class="movies-container" style="margin-top: 20px;"> <!-- Add margin top -->
   <h1>Movies List</h1>
   {% if movies_list %}
     <table class="table">

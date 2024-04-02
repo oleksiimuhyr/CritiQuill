@@ -1,5 +1,5 @@
 .custom-background {
-    background: linear-gradient(135deg, #ff6b6b, #3f51b5);
+    background: linear-gradient(135deg, #ff6b6b, #3f51b5) !important;
 }
 
 body {
@@ -54,28 +54,47 @@ th, td {
     background: linear-gradient(180deg, #f0f0f0, #e0e0e0);
     border-radius: 5px;
     padding: 10px;
-  }
+}
 
-  .sidebar-nav {
+.sidebar-nav {
     list-style: none;
     padding: 0;
-  }
+}
 
-  .sidebar-nav .list-group-item {
-      padding: 5px 10px;
-      margin: 5px 0;
-  }
+.sidebar-nav .list-group-item {
+    padding: 5px 10px;
+    margin: 5px 0;
+}
 
-
-
-  .sidebar-nav .list-group-item a {
+.sidebar-nav .list-group-item a {
     text-decoration: none;
     color: #333;
-  }
+}
 
-  .sidebar-nav .list-group-item a:hover {
+.sidebar-nav .list-group-item a:hover {
     color: #007bff;
-  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar-wrapper {
+        width: 100%; /* Adjust width for smaller screens */
+        height: auto; /* Allow height to adjust */
+        border-right: none; /* Remove border on smaller screens */
+        border-bottom: 1px solid #ccc; /* Add border at bottom for smaller screens */
+        border-radius: 0; /* Remove border radius */
+        padding: 10px 0; /* Adjust padding */
+    }
+
+    .sidebar-nav .list-group-item {
+        padding: 10px 0; /* Adjust padding for smaller screens */
+        margin: 0; /* Remove margin for smaller screens */
+        text-align: center; /* Center align items for smaller screens */
+        border-bottom: 1px solid #ccc; /* Add border between items for smaller screens */
+    }
+}
+
+
 
   form {
   max-width: 400px;
@@ -326,14 +345,20 @@ h1 {
 }
 
 .footer {
-    background-color: #333 !important;
-    color: #fff !important;
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
-    border-left: 1px solid #ccc !important;
-    padding-left: 250px !important;
+    border-left: 1px solid #ccc; /* Left border */
+    border-right: 1px solid #ccc; /* Right border */
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    padding: 20px 0; /* Adjust padding as needed */
 }
 
+.footer .container {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .main-content {
     margin-bottom: 60px !important;
@@ -347,3 +372,28 @@ h1 {
     overflow: hidden !important;
 }
 
+body {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+.main-content {
+    margin-bottom: 60px;
+    margin-left: 50px;
+    padding-left: 20px;
+    flex: 1;
+}
+
+.movies-container {
+  margin-top: 20px !important;
+}
+
+.review-btn {
+    margin-right: 60px;
+    max-width: calc(100% - 20px);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
