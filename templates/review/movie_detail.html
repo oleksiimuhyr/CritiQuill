@@ -43,17 +43,17 @@
               <hr>
 
               <h2>Reviews:</h2>
-              {% if movie.reviews %}
-                <ul class="review-list">
-                  {% for review in movie.reviews.all %}
-                    <li class="review-item">
-                      <a href="{% url 'review:review-detail' review.id %}" class="review-link" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }}</a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% else %}
-                <p>No reviews yet.</p>
-              {% endif %}  
+{% if movie.movie_reviews.all %}
+  <ul class="review-list">
+    {% for review in movie.movie_reviews.all %}
+      <li class="review-item">
+        <a href="{% url 'review:review-detail' review.id %}" class="review-link" title="Read full review">{{ review.user }} rated this movie {{ review.get_rating_display }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No reviews yet.</p>
+{% endif %} 
 
               <a href="{% url 'review:write_review' movie.id %}" class="btn btn-primary">Write a review about this movie</a>
 

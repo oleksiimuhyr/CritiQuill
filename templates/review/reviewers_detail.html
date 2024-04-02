@@ -1,34 +1,36 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-<div class="reviewer-details">
-  <h1>Reviewer: {{ reviewer.username }}</h1>
-  <hr>
+<div class="container mt-5">
+  <div class="reviewer-details">
+    <h1 class="mb-4">Reviewer: {{ reviewer.username }}</h1>
+    <hr>
 
-  <h2>Favourite Movies:</h2>
-  {% if reviewer.favourite_movies.all %}
-    <ul class="favourite-movies-list">
-      {% for movie in reviewer.favourite_movies.all %}
-        <li class="movie-item">
-          <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link" title="View movie details">{{ movie.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No favourite movies specified.</p>
-  {% endif %}
+    <h2 class="mb-3">Favourite Movies:</h2>
+    {% if reviewer.favourite_movies.all %}
+      <ul class="list-group mb-4">
+        {% for movie in reviewer.favourite_movies.all %}
+          <li class="list-group-item">
+            <a href="{% url 'review:movie-detail' movie.id %}" class="movie-link" title="View movie details">{{ movie.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No favourite movies specified.</p>
+    {% endif %}
 
-  <h2>Reviews:</h2>
-  {% if reviewer.review_set.all %}
-    <ul class="reviews-list">
-      {% for review in reviewer.review_author.all %}
-        <li class="review-item">
-          <a href="{% url 'review:review-detail' pk=review.id %}" class="review-link" title="View review details">{{ review.review_text }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No reviews found for this reviewer.</p>
-  {% endif %}
+    <h2 class="mb-3">Reviews:</h2>
+    {% if reviewer.review_author.all %}
+      <ul class="list-group mb-4">
+        {% for review in reviewer.review_author.all %}
+          <li class="list-group-item">
+            <a href="{% url 'review:review-detail' pk=review.id %}" class="review-link" title="View review details">{{ review.movie.title }} ({{ review.rating }} stars)</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No reviews found for this reviewer.</p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

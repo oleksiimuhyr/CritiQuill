@@ -1,5 +1,4 @@
 {% extends "layouts/base.html" %}
-
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 
@@ -22,11 +21,19 @@
               <br>
               {{ review.added_at }}</strong></p>
           </div>
+          {% if request.user == review.user %}
+          <div class="card-footer">
+            <form action="{% url 'review:review-delete' review.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete Review</button>
+            </form>
+          </div>
+          {% endif %}
         </div>
       </div>
-      <div class="col-md-4">
-          </div>
-        </div>
-      </div>  
+      <div class="col-md-4">        
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

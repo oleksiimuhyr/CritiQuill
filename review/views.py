@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic, View
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, DeleteView
 
 from .forms import (
     MovieCreateForm,
@@ -40,7 +40,7 @@ class AllGenresView(ListView):
     context_object_name = 'genres'
     paginate_by = 5
 
-    def get_queryset(self):
+    def get_queryset(self: View) -> QuerySet:
         queryset = super().get_queryset()
         form = GenreSearchForm(self.request.GET)
         if form.is_valid():
@@ -49,7 +49,7 @@ class AllGenresView(ListView):
                 queryset = queryset.filter(name__icontains=query)
         return queryset
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self: View, **kwargs: None) -> dict:
         context = super().get_context_data(**kwargs)
         context['search_form'] = GenreSearchForm(self.request.GET)
         return context
@@ -175,6 +175,14 @@ class ReviewerDetailView(LoginRequiredMixin, DetailView):
     model = Reviewer
     template_name = 'review/reviewers_detail.html'
     context_object_name = 'reviewer'
+
+
+class ReviewDeleteView(LoginRequiredMixin, DeleteView):
+    model = Review
+    success_url = reverse_lazy('review:reviews-list')
+
+    def get_queryset(self: View) -> QuerySet:
+        return super().get_queryset().filter(user=self.request.user)
 
 
 class MovieDetailView(LoginRequiredMixin, DetailView):

@@ -11,7 +11,7 @@ from .views import (
     MovieDetailView,
     CreateReviewView,
     AllGenresView,
-    GenreMoviesView,
+    GenreMoviesView, ReviewDeleteView,
 )
 
 app_name = 'review'
@@ -35,6 +35,8 @@ urlpatterns = [
          CreateReviewView.as_view(), name='create-review'),
     path('write_review/<int:movie_id>/',
          views.CreateReviewView.as_view(), name='write_review'),
+    path('reviews/<int:pk>/delete/',
+         ReviewDeleteView.as_view(), name='review-delete'),
     path('reviewers/',
          ReviewerListView.as_view(), name='reviewers-list'),
     path('reviewers/<int:pk>/',
