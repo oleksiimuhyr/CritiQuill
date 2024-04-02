@@ -14,7 +14,10 @@ At this moment, the website offers the following options:
 Design realized in minimalistic matter, hope you enjoy this version of the website.
 New features and possibilities yet to come. Stay calm and love movies.
 
-HOW TO RUN CRITIQUILL:
+Visit our website at [https://critiquill.onrender.com/](https://critiquill.onrender.com/)
+to explore and contribute to our community of film enthusiasts.
+
+HOW TO RUN CRITIQUILL locally:
 
 1.How to install proJect
 
