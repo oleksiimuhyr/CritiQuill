@@ -33,37 +33,35 @@
           <input class="btn btn-primary" type="submit" value="Search 🔍">
         </form>
         <br>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Genres</th>
-                  <th>Release Year</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for movie in movies_list %}
-                <tr>
-                  <td><a href="{% url 'review:movie-detail' movie_id=movie.id %}">{{ movie.title }}</a></td>
-                  <td>
-                    {% if movie.genre.all %}
-                      {{ movie.genre.all|join:', ' }}
-                    {% else %}
-                      No genres listed
-                    {% endif %}
-                  </td>
-                  <td>{{ movie.release_year }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="3">There are no movies</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+        <div class="table-responsive"> <!-- Add this class to make the table responsive -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Genres</th>
+                <th>Release Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for movie in movies_list %}
+              <tr>
+                <td><a href="{% url 'review:movie-detail' movie_id=movie.id %}">{{ movie.title }}</a></td>
+                <td>
+                  {% if movie.genre.all %}
+                    {{ movie.genre.all|join:', ' }}
+                  {% else %}
+                    No genres listed
+                  {% endif %}
+                </td>
+                <td>{{ movie.release_year }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3">There are no movies</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
         {% include "includes/pagination.html" %}
       </div>
